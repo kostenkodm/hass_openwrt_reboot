@@ -2,7 +2,7 @@
     "domain": "openwrt_reboot",
     "name": "OpenWrt Reboot",
     "version": "1.0.1",
-    "documentation": "https://www.example.com",
+    "documentation": "https://github.com/kostenkodm/hass_openwrt_reboot",
     "requirements": ["paramiko"],
     "dependencies": [],
     "codeowners": ["@kostenkodm"],
