@@ -9,7 +9,7 @@ from . import DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
 DEFAULT_REBOOT_COMMAND = "reboot"
-RESTART_WIFI_COMMAND = "wifi reload"
+RESTART_WIFI_COMMAND = "/etc/init.d/network restart"
 
 async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry, async_add_entities):
     """Set up the buttons from a config entry."""
