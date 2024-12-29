@@ -10,6 +10,7 @@ _LOGGER = logging.getLogger(__name__)
 
 DEFAULT_REBOOT_COMMAND = "reboot"
 RESTART_WIFI_COMMAND = "/etc/init.d/network restart"
+RESTART_VPRDNS_COMMAND = "vprdns"
 
 async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry, async_add_entities):
     """Set up the buttons from a config entry."""
@@ -17,6 +18,7 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry, asyn
     async_add_entities([
         OpenWrtRebootButton(config["host"], config["username"], config["password"], config_entry.entry_id),
         OpenWrtWiFiRestartButton(config["host"], config["username"], config["password"], config_entry.entry_id),
+        OpenWrtVprDnsRestartButton(config["host"], config["username"], config["password"], config_entry.entry_id),
     ])
 
 class OpenWrtButtonBase(ButtonEntity):
@@ -75,6 +77,31 @@ class OpenWrtWiFiRestartButton(OpenWrtButtonBase):
 
     async def async_press(self):
         await self._execute_command(RESTART_WIFI_COMMAND)
+
+    async def _execute_command(self, command):
+        try:
+            client = paramiko.SSHClient()
+            client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            client.connect(self._host, username=self._username, password=self._password)
+            stdin, stdout, stderr = client.exec_command(command)
+            _LOGGER.info(f"Command '{command}' executed successfully on the router.")
+            client.close()
+        except Exception as e:
+            _LOGGER.error(f"Failed to execute command '{command}': {e}")
+
+class OpenWrtVprDnsRestartButton(OpenWrtButtonBase):
+    """Button to restart the VPR DNS on the OpenWrt router."""
+
+    @property
+    def name(self):
+        return "OpenWrt Restart VPR DNS"
+
+    @property
+    def unique_id(self):
+        return f"openwrt_vprdns_restart_{self._host}"
+
+    async def async_press(self):
+        await self._execute_command(RESTART_VPRDNS_COMMAND)
 
     async def _execute_command(self, command):
         try:
