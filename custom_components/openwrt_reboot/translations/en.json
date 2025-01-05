@@ -1,0 +1,24 @@
+{
+    "config": {
+      "step": {
+        "user": {
+          "title": "Select Authentication Method",
+          "description": "Choose whether to use a password or a private key for authentication.",
+          "data": {
+            "auth_method": "Authentication Method"
+          }
+        },
+        "auth_details": {
+          "title": "Connection Details",
+          "description": "Enter the details required to connect to your OpenWrt router.",
+          "data": {
+            "host": "Router Address",
+            "username": "Username",
+            "password": "Password",
+            "private_key": "Private Key"
+          }
+        }
+      }
+    }
+  }
+  
