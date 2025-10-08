@@ -1,25 +1,100 @@
 # OpenWrt Reboot Integration for Home Assistant
+This custom Home Assistant integration allows you to **reboot your OpenWrt router, restart Wi-Fi, or execute the `vprdns` command** directly from Home Assistant via SSH.
 
-This Home Assistant custom integration adds button entities to remotely manage your OpenWrt router. With this integration, you can:
+---
 
-- **Reboot your router** with a single button press.  
-- **Restart the Wi-Fi interface** (`radio0`) without rebooting the entire router.  
-- Easily configure the integration via Home Assistant’s UI.  
+## 🧩 Features
 
-## Features
-- **Simple Configuration**: Set up your router’s host, username, and password directly from the Home Assistant interface.  
-- **Device Integration**: View and manage buttons directly in the Devices & Services menu.  
-- **Secure Commands**: Uses Paramiko to securely execute SSH commands on your OpenWrt router.  
+- 🔁 Reboot OpenWrt router via SSH
+- 📶 Restart Wi-Fi (radio0 or custom interface)
+- 🔐 Support for both **password** and **private key** authentication
+- 🔍 Zeroconf discovery support
+- 🪄 Native Home Assistant button entities
 
-## Requirements
-- An OpenWrt router with SSH access enabled.  
-- Home Assistant installed and running.  
+---
 
-## Installation
-1. Clone or download the repository into your `custom_components` directory.  
-2. Restart Home Assistant.  
-3. Add the integration via **Settings → Devices & Services → Add Integration → OpenWrt Reboot**.  
+## ⚙️ Installation (via HACS)
 
-## Example Use Cases
-- Automate your router’s reboot schedule.  
-- Quickly resolve Wi-Fi issues by restarting the interface without disrupting other services.  
+1. Go to **HACS → Integrations → Custom repositories**
+2. Add repository URL:  
+   `https://github.com/kostenkodm/hass_openwrt_reboot`
+   Type: `Integration`
+3. Search for **OpenWrt Reboot** and install it.
+4. Restart Home Assistant.
+5. Go to **Settings → Devices & Services → Add Integration → OpenWrt Reboot**
+
+---
+
+## 🔑 Authentication
+
+You can choose between:
+- **Password authentication**  
+- **Private key authentication** (recommended)
+
+If using a private key, ensure it is stored on your Home Assistant host and accessible to the integration.
+
+---
+
+## 🧠 Required components on OpenWrt
+
+Make sure the following packages are installed on your router:
+
+```
+opkg update
+opkg install openssh-server openssh-client bash coreutils
+```
+
+If you use **VPN Policy Routing** and the `vprdns` command, install it too:
+
+```
+opkg install vpn-policy-routing
+```
+
+Ensure SSH access is enabled and the Home Assistant host is allowed to connect.
+
+---
+
+## 🪄 Available Buttons
+
+- 🖲️ **Reboot Router** — executes `reboot`
+- 📡 **Restart Wi-Fi** — executes `wifi down radio0 && wifi up radio0`
+- 🌍 **Run vprdns** — executes `vprdns`
+
+---
+
+## 🔧 Configuration Example
+
+Example entity in Home Assistant:
+
+```yaml
+type: entities
+entities:
+  - entity: button.openwrt_reboot_router
+  - entity: button.openwrt_restart_wifi
+  - entity: button.openwrt_vprdns
+```
+
+---
+
+## 🧰 Troubleshooting
+
+If commands fail:
+- Verify SSH credentials
+- Ensure the router’s IP is reachable
+- Check permissions for your SSH key
+
+---
+
+## 🧾 License
+
+MIT License © [kostenkodm](https://github.com/kostenkodm)
+
+---
+
+## 🆕 Changelog
+
+### v1.0.4
+- Added `vprdns` custom command
+- Added Zeroconf discovery
+- Added dual authentication (password/key)
+- Added English & Russian translations
