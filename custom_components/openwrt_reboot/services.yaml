@@ -1,0 +1,11 @@
+reboot_router:
+  name: "Reboot Router"
+  description: "Reboot the OpenWrt router."
+
+restart_wifi:
+  name: "Restart Wi-Fi"
+  description: "Restart the Wi-Fi interface (e.g., radio0)."
+
+execute_vprdns:
+  name: "Execute vprdns"
+  description: "Run the vprdns command on the router."

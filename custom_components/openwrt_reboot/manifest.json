@@ -1,0 +1,14 @@
+{
+  "domain": "openwrt_reboot",
+  "name": "OpenWrt Reboot",
+  "codeowners": ["@kostenkodm"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/kostenkodm/hass_openwrt_reboot",
+  "issue_tracker": "https://github.com/kostenkodm/hass_openwrt_reboot/issues",
+  "iot_class": "local_push",
+  "requirements": ["asyncssh>=2.14.1"],
+  "version": "1.0.4",
+  "icon": "mdi:router-wireless",
+  "translations": ["en", "ru"]
+}
